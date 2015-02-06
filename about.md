@@ -4,7 +4,7 @@ title: About Me
 header: About Me
 group: navigation
 ---
- * **Name:** Yitao Yao
- * **Email:** [simpleyyt@gmail.com](mailto:simpleyyt@gmail.com)
- * **WeiBo:** [摇一摇SimpleLife](http://www.weibo.com/u/1836017133)
- * **Github:** [Simpleyyt](https://github.com/Simpleyyt)
+ * **Name:** 이상건
+ * **Email:** [kdsr2z0@gmail.com](mailto:kdsr2z0@gmail.com)
+ * **Company:** NHN Entertainment
+ * **Github:** [kdsr2z0](https://github.com/kdsr2z0)
