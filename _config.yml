@@ -9,26 +9,26 @@ markdown: kramdown
 
 # The title and tagline is showed on homepage
 #
-title :  Simpleyyt 
-tagline: Yitao's Blog
+title :  Code Laboratory
+tagline: Sangkeon's Blog
 
 # Information about author
 #
 author :
-  name : Yitao Yao
+  name : SangKeon Lee
   
 # Information for contacts showed at on the footer
 #
 contact :
-  e-mail : mailto:simpleyyt@gmail.com
-  Github : https://github.com/Simpleyyt
-  WeiBo : http://www.weibo.com/u/1836017133
-  Google+ : https://plus.google.com/103860633659538888207?rel=author
+  e-mail : kdsr2z0@gmail.com
+  Github : https://github.com/kdsr2z0
+  WeiBo : 
+  Google+ : 
   
 # Links showed on the footer
 #
 links :
-  Yitao's Blog : http://simpleyyt.github.io/
+  Yitao's Blog : http://kdsr2z0.github.io/
 
 # The search engine. Only support google custom search engine.
 #
@@ -37,8 +37,8 @@ search :
   
   # Your Google custom search engine ID
   #
-  gcse :
-    cx : 004255214185073801838:_icnlls8kds
+#  gcse :
+#    cx : 004255214185073801838:_icnlls8kds
   
 # The way of excerpt. There are two options: "teaser" and "truncate_words".
 # "teaser" option: look for the More tag (<!--more-->) and create a teaser from the content that precedes the More tag.
