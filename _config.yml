@@ -1,6 +1,6 @@
 # General
-name: Minimal-Block
-description: "Minimalistic, friendly, responsive."
+name: Knowledge Code Laboratory
+description: "Java, Javascript, Spring framework"
 url: http://kdsr2z0.github.io
 
 markdown: redcarpet
@@ -11,9 +11,9 @@ permalink: /:title
 
 # Social share and comments.
 disqus-id: 이상건
-twitter: 
-github: github.com/kdsr2z0
-google: 
+# twitter: 
+github: kdsr2z0
+# google: 
 
 # RSS feed
 rss-feed-limit: 10
