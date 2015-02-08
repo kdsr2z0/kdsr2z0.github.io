@@ -1,7 +1,7 @@
 # General
 name: Minimal-Block
 description: "Minimalistic, friendly, responsive."
-url: http://localhost:4000
+url: http://kdsr2z0.github.io
 
 markdown: redcarpet
 highlighter: pygments
@@ -10,10 +10,10 @@ paginate: 5
 permalink: /:title
 
 # Social share and comments.
-disqus-id: yourusername
-twitter: yourusername
-github: yourusername
-google: +yourusername
+disqus-id: 이상건
+twitter: 
+github: github.com/kdsr2z0
+google: 
 
 # RSS feed
 rss-feed-limit: 10
