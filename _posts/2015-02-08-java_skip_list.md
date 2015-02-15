@@ -8,7 +8,7 @@ shortUrl:
 ---
 
 java.util.concurrent package
----------------- * * *
+---------------- 
 java.util.concurrent package는 병렬 프로그램에서 유용한 공통적인 유틸 클래스들을 제공해 주고 있다. 
 
 * __Executors__ interface : 사용자 정의 시스템을 지원하기 위한 Executors interface를 제공한다.
@@ -22,13 +22,12 @@ java.util.concurrent package는 병렬 프로그램에서 유용한 공통적인
 
 
 java의 concurrent skip list
----------------- * * *
+----------------
 Java에서는 jdk 1.6 버전에서 부터 ConcurrentSkipListMap, ConcurrentSkipListSet 클래스를 통해 Skip List를 제공해 주고 있다.
 
 
 concurrentskiplistmap의 extends, implements
----------------- * * *
-
+---------------- 
 __abstract class AbstractMap__
 
 * Map의 기본인 key,와 value 를 관리하기위한 변수 및 메소드 들을 제공해 주고 있다.
@@ -56,8 +55,6 @@ __public interface ConcurrentNavigableMap__
 
 마치며....
 ----------------
-* * *
-
 다음 포스팅 부터 본격적으로 소스를 분석할 예정이다.
 
 소스를 한번 훑어본 결과 java에도 goto문이 있다는 사실을 처음 알게 되었다...
