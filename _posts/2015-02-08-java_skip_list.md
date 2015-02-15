@@ -31,9 +31,6 @@ concurrentskiplistmap의 extends, implements
 __abstract class AbstractMap__
 
 * Map의 기본인 key,와 value 를 관리하기위한 변수 및 메소드 들을 제공해 주고 있다.
-
-__key와 value는 변수__
-
 * volatile transient Set<K> keySet; 
 * volatile transient Collection<V> values; 
 * transient : 직렬화 과정에서 제외 시킨다는 표시.
