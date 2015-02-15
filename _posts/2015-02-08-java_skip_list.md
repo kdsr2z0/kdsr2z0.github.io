@@ -8,9 +8,7 @@ shortUrl:
 ---
 
 java.util.concurrent package
-----------------
-* * *
-
+---------------- * * *
 java.util.concurrent package는 병렬 프로그램에서 유용한 공통적인 유틸 클래스들을 제공해 주고 있다. 
 
 * __Executors__ interface : 사용자 정의 시스템을 지원하기 위한 Executors interface를 제공한다.
@@ -24,15 +22,12 @@ java.util.concurrent package는 병렬 프로그램에서 유용한 공통적인
 
 
 java의 concurrent skip list
-----------------
-* * *
-
+---------------- * * *
 Java에서는 jdk 1.6 버전에서 부터 ConcurrentSkipListMap, ConcurrentSkipListSet 클래스를 통해 Skip List를 제공해 주고 있다.
 
 
 concurrentskiplistmap의 extends, implements
-----------------
-* * *
+---------------- * * *
 
 __abstract class AbstractMap__
 
