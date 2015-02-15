@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Java의 ConcurrentSkipListMap"
-date:   2015-02-08 15:28:00
+date:   2015-02-15 15:28:00
 categories: java
 tags: shit
 shortUrl: 
@@ -31,23 +31,23 @@ Java에서는 jdk 1.6 버전에서 부터 ConcurrentSkipListMap, ConcurrentSkipL
 concurrentskiplistmap의 extends, implements
 ----------------
 
-* abstract class AbstractMap
-** Map의 기본인 key,와 value 를 관리하기위한 변수 및 메소드 들을 제공해 주고 있다.
-* key와 value는 변수
-** volatile transient Set<K> keySet; 
-** volatile transient Collection<V> values; 
-** transient : 직렬화 과정에서 제외 시킨다는 표시.
-** volatile : 비동기적으로 변경될 수 있는 변수라는 표시.
+abstract class AbstractMap:
+* Map의 기본인 key,와 value 를 관리하기위한 변수 및 메소드 들을 제공해 주고 있다.
+key와 value는 변수
+* volatile transient Set<K> keySet; 
+* volatile transient Collection<V> values; 
+* transient : 직렬화 과정에서 제외 시킨다는 표시.
+* volatile : 비동기적으로 변경될 수 있는 변수라는 표시.
 
-* public interface Serializable
-** Serializable interface 를 implements 하게 되면 별도의 method를 구현하지 않아도 직렬화 기능을 사용할 수 있도록 해 준다.
+public interface Serializable
+* Serializable interface 를 implements 하게 되면 별도의 method를 구현하지 않아도 직렬화 기능을 사용할 수 있도록 해 준다.
 
-* public interface Cloneable
-** Object.clone() 을 호출 하였을 때, CloneNotSupportedException을 발생하지 않도록 하기 위하여 표시해 주는 interface
+public interface Cloneable
+* Object.clone() 을 호출 하였을 때, CloneNotSupportedException을 발생하지 않도록 하기 위하여 표시해 주는 interface
 
-* public interface ConcurrentNavigableMap
-** extends interface ConcurrentMap : 병렬 프로그래밍에서 Map의 메모리 무결성 효과를 주기 위한 interface 이다.
-** extends interface SortedMap : implements한 Map 클래스가 정렬된 상태임을 표시해 준다.
+public interface ConcurrentNavigableMap
+* extends interface ConcurrentMap : 병렬 프로그래밍에서 Map의 메모리 무결성 효과를 주기 위한 interface 이다.
+* extends interface SortedMap : implements한 Map 클래스가 정렬된 상태임을 표시해 준다.
 
 
 마치며....
