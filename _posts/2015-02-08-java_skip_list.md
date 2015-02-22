@@ -49,7 +49,7 @@ __public interface Cloneable__
 * Object.clone() 을 호출 하였을 때, CloneNotSupportedException을 발생하지 않도록 하기 위하여 표시해 주는 interface
 
 <br><br>
-__public interface ConcurrentNavigableMap__
+__public interface ConcurrentNavigableMap__		
 
 * extends interface ConcurrentMap : 병렬 프로그래밍에서 Map의 메모리 무결성 효과를 주기 위한 interface 이다.
 * extends interface SortedMap : implements한 Map 클래스가 정렬된 상태임을 표시해 준다.
@@ -61,7 +61,7 @@ __public interface ConcurrentNavigableMap__
 ConcurrentSkipListMap의 extends와 implements 만 보아도 ConcurrentSkipListMap가 가진 특성을 잘 알 수 있다.<br>
 
 * AbstractMap 를 extends 하고 있으므로 Map의 기본 형태를 따른다는것을 알 수 있다.
-* 또한 implements된 interface를 보면 직렬화(Serializable) 가능하고, 클론(Cloneable)을 만들 수 있으며, 병렬 작업을 지원하는 Map 클래스(ConcurrentNavigableMap)임을 알 수 있다.
+* 또한 implements된 interface를 보면 직렬화(Serializable) 가능하고, 클론(Cloneable)을 만들 수 있으며, 병렬 작업을 지원하는 정렬된 Map 클래스(ConcurrentNavigableMap)임을 알 수 있다.
 
 <br><br><br>
 
