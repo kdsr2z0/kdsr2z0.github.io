@@ -53,7 +53,7 @@ class Node의 변수는
 * value와 next 는 volatile이 붙어있는 것을 보아, 비동기적으로 수정될 수 있는 변수임을 알 수 있다.
 * 아래 세 변수는 메모리 관리와 관련된 변수들이다.
 
-__value__ : value는 데이터를 가지거나, this 혹은 BASE_HEADER를 가리킬 수 있다.<br>
+__value__ : value는 데이터를 가지거나, this 혹은 BASE HEADER를 가리킬 수 있다.<br>
 __key__  : key는 말 그대로 노드를 구별하고, 정렬할 때 사용하는 노드의 key를 말한다. value 가 this나 BASE HEADER를 가리킬 때, key는 null 일 수 있다.<br>
 __next__  : 다음 노드를 가리킨다.
 
