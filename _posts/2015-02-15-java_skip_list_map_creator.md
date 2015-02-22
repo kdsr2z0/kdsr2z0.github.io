@@ -33,13 +33,13 @@ initialize()
 ---------------- 
 각 생성자는 initialize() 함수를 호출 한다.
 
-private void initialize() {
-	keySet = null;
-	entrySet = null;
-	values = null;
-	descendingMap = null;
-	head = new HeadIndex(new Node(null, BASE_HEADER, null), null, null, 1);
-}
+	private void initialize() {
+		keySet = null;
+		entrySet = null;
+		values = null;
+		descendingMap = null;
+		head = new HeadIndex(new Node(null, BASE_HEADER, null), null, null, 1);
+	}
 
 생성자에서 HeadIndex 하나를 생성해 주고 있다.
 
@@ -49,15 +49,17 @@ buildFromSorted(SortedMap sortedmap)
 ---------------- 
 ConcurrentSkipListMap(SortedMap sortedmap) 생성자의 경우, buildFromSorted(SortedMap sortedmap)메소드를 호출하고 있다.
 이 메소드 첫 부분에 보면, 흥미로운 소스가 보였다.
-ArrayList arraylist = new ArrayList();
-for (int i = 0; i <= headindex.level; i++)
-	arraylist.add(null);
 
-Object obj = headindex;
-for (int j = headindex.level; j > 0; j--) {
-	arraylist.set(j, obj);
-	obj = ((Index) (obj)).down;
-}
+	ArrayList arraylist = new ArrayList();
+	for (int i = 0; i <= headindex.level; i++)
+		arraylist.add(null);
+
+	Object obj = headindex;
+	for (int j = headindex.level; j > 0; j--) {
+		arraylist.set(j, obj);
+		obj = ((Index) (obj)).down;
+	}
+
 ArrayList 의 경우, add(int paramInt, E paramE) 라는 메소드를 제공해 주고 있음에도 불구하고,
 루프 두번을 수행하여 데이터를 set해주고 있는것을 볼 수 있다.
 마치, C 에서 malloc으로 공간을 확보 하고, data를 set 하는것과 같아 보인다.
