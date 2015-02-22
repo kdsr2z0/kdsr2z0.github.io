@@ -16,9 +16,6 @@ ConcurrentSkipListMap에는 다음과 같은 변수들이 선언되어 있다.
 	private transient EntrySet entrySet;
 	private transient Values values;
 	private transient ConcurrentNavigableMap descendingMap;
-	private static final int EQ = 1;
-	private static final int LT = 2;
-	private static final int GT = 0;
 	private static final Unsafe UNSAFE;
 	private static final long headOffset;
 	private static final long SECONDARY;
@@ -56,8 +53,8 @@ class Node의 변수는
 * value와 next 는 volatile이 붙어있는 것을 보아, 비동기적으로 수정될 수 있는 변수임을 알 수 있다.
 * 아래 세 변수는 메모리 관리와 관련된 변수들이다.
 
-__value__ : value는 데이터를 가지거나, this 혹은 BASE_HEADER를 가리킬 수 있다.
-__key__ : key는 말 그대로 노드를 구별하고, 정렬할 때 사용하는 노드의 key를 말한다. value 가 this나 BASE_HEADER를 가리킬 때, key는 null 일 수 있다.
+__value__ : value는 데이터를 가지거나, this 혹은 BASE_HEADER를 가리킬 수 있다.<br>
+__key__ : key는 말 그대로 노드를 구별하고, 정렬할 때 사용하는 노드의 key를 말한다. value 가 this나 BASE_HEADER를 가리킬 때, key는 null 일 수 있다.<br>
 __next__ : 다음 노드를 가리킨다.
 
 Node 클래스의 생성자
@@ -98,8 +95,8 @@ Index 클래스는 SkipList의 계층 구조를 만들어주는 클래스 이다
 * right 변수만 비동기적으로 수정될 수 있는 변수임을 알 수 있다.
 * 아래 두 변수는 메모리 관리와 관련된 변수들이다.
 
-__node__ : Index가 가리키고 있는 node를 저장한다.
-__down__ : 하위 Level으로 이동한다.
+__node__ : Index가 가리키고 있는 node를 저장한다.<br>
+__down__ : 하위 Level으로 이동한다.<br>
 __right__ : 다음 Index로 이동한다.
 
 Index 클래스의 생성자
