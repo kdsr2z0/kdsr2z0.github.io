@@ -9,7 +9,7 @@ shortUrl:
 
 
 
-ConcurrentSkipListMap는 네 종류의 생성자
+ConcurrentSkipListMap 네 종류의 생성자
 ---------------- 
 
 * ConcurrentSkipListMap() : 기본 생성자
