@@ -51,7 +51,8 @@ skip list 사용 예제
 
 마치며...
 ----------------
-앞으로 <http://docs.oracle.com/javase/8/docs/api/> 문서를 참조하면서 Jadclipse 라는 이클립스 도구를 사용하여 ConcurrentSkipListMap의 삽입/삭제 소스를 직접 찾아보면서, 어떤 알고리즘을 사용하는지, 어떤 방식으로 멀티 쓰레드를 지원하고 있는지를 살펴 볼 것이다.
+앞으로 ConcurrentSkipListMap의 삽입/삭제 소스를 직접 찾아보면서, 어떤 알고리즘을 사용하는지, 어떤 방식으로 멀티 쓰레드를 지원하고 있는지를 살펴 볼 것이다.<br>
+ConcurrentSkipListMap의 소스는 <http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8-b132/java/util/concurrent/ConcurrentSkipListMap.java?av=f> 에서 구하였다.
 
 
 
