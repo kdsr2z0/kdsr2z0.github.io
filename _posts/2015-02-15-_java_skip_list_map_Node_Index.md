@@ -10,15 +10,12 @@ shortUrl:
 ConcurrentSkipListMap에는 다음과 같은 변수들이 선언되어 있다.
 
 	private static final Object BASE_HEADER = new Object();
-	private volatile transient HeadIndex head;
-	final Comparator comparator;
-	private transient KeySet keySet;
-	private transient EntrySet entrySet;
-	private transient Values values;
-	private transient ConcurrentNavigableMap descendingMap;
-	private static final Unsafe UNSAFE;
-	private static final long headOffset;
-	private static final long SECONDARY;
+	private transient volatile HeadIndex<K,V> head;
+	final Comparator<? super K> comparator;
+	private transient KeySet<K> keySet;
+	private transient EntrySet<K,V> entrySet;
+	private transient Values<V> values;
+	private transient ConcurrentNavigableMap<K,V> descendingMap;
 	
 HeadIndex, KeySet, EntrySet, Values 등 ConcurrentSkipListMap 에 사용되는 Class들은 대부분 내부 클래스로 선언되어 있다.
 내부 클래스에 대한 접근은 내부 변수와 동일하다.
@@ -31,27 +28,25 @@ HeadIndex, KeySet, EntrySet, Values 등 ConcurrentSkipListMap 에 사용되는 C
 
 필요한 외부 클래스의 변수들을 생성자를 통해 전달받는것을 보아 첫번째 특성을 위해 내부 클래스를 사용하는 것 같다.
 
-또, 내부 클래스를 사용하면, KeySet, EntrySet, Values 등 흔히 쓰이는 내부 클래스의 이름이 다른 클래스의 내부 클래스의 이름과 동일해도 상관없다는 장점도 존재하는 것 같다.
+또, 내부 클래스를 사용하면, KeySet, EntrySet, Values 등 흔히 쓰이는 뷰 클래스의 이름이 다른 클래스의 내부 클래스의 이름과 동일해도 상관없다는 장점도 존재하는 것 같다.
 
 <br><br><br>
 
 Node
 ---------------- 
 
-SkipList 는 노드와 노드 사이를 링크로 연결하고 있다. 따라서 Node라는 내부 클래스가 존재하고 있다.
+* SkipList 는 노드와 노드 사이를 링크로 연결하고 있다. 따라서 Node라는 내부 클래스가 존재하고 있다.<br>
+* 노드는 정렬된 상태를 유지하게 되고, 마커 노드에 연결된다.<br>
+* 노드의 경우 Head의 더미노드 부터 접근 가능하다.
 
 class Node의 변수는 
 
-	final Object key;
+	final K key;
 	volatile Object value;
-	volatile Node next;
-	private static final Unsafe UNSAFE;
-	private static final long valueOffset;
-	private static final long nextOffset;
+	volatile Node<K,V> next;
 
 * key는 생성자에서 한번 set되면 변경되지 못하도록 되어있다.
 * value와 next 는 volatile이 붙어있는 것을 보아, 비동기적으로 수정될 수 있는 변수임을 알 수 있다.
-* 아래 세 변수는 메모리 관리와 관련된 변수들이다.
 
 __value__ : value는 데이터를 가지거나, this 혹은 BASE HEADER를 가리킬 수 있다.<br>
 __key__  : key는 말 그대로 노드를 구별하고, 정렬할 때 사용하는 노드의 key를 말한다. value 가 this나 BASE HEADER를 가리킬 때, key는 null 일 수 있다.<br>
@@ -71,11 +66,14 @@ Node 클래스의 생성자
 		next = node;
 	}
 
+* 두번째 생성자의 경우 마커 노드를 생성한다. 마커노드의 경우 value가 자기 자신을 가리키면 마커 노드로 판단할 수 있다.
+
 Node 클래스에서 제공하는 method 는 다음과 같다.
 
 * casValue(Object obj, Object obj1) : 기존 value 값이 obj와 같다면 obj1로 변환 시킴.
 * casNext(Node node, Node node1) : 기존 next 값이 node와 같다면 node1로 변환 시킴.
 * helpDelete(Node node, Node node1) : 현재 노드가 node, node1 사이라면 현재 노드를 삭제시킴.
+* V getValidValue() : 현재 노드가 key-value pair 인 노드이면(head의 더미 노드나 마크 노드가 아닌), 값을 반환한다.
 
 <br><br><br>
 
@@ -86,11 +84,9 @@ Index 클래스는 SkipList의 계층 구조를 만들어주는 클래스 이다
 
 다음은 Index 클래스의 변수들이다.
 
-	final Node node;
-	final Index down;
-	volatile Index right;
-	private static final Unsafe UNSAFE;
-	private static final long rightOffset;
+	final Node<K,V> node;
+	final Index<K,V> down;
+	volatile Index<K,V> right;
 
 * right 변수만 비동기적으로 수정될 수 있는 변수임을 알 수 있다.
 * 아래 두 변수는 메모리 관리와 관련된 변수들이다.
@@ -127,9 +123,11 @@ head는 새로운 level이 생기게 되면 추가될 수 있다.
 cas
 ---------------- 
 
-위에서 node와 index의 method에 붙어있는 cas 는 compareAndSwap의 줄인말이다.
+위에서 node와 index의 method에 붙어있는 cas와 같이 cas가 prefix로 붙어있는 method 들이 있다.
 
-sun.misc.Unsafe 에서 제공하는 함수를 호출하기 때문에 method 이름 마다 cas를 붙인 듯 하다.
+cas 는 compareAndSwap의 줄인말이다.
+
+sun.misc.Unsafe 에서 제공하는 함수를 호출하고 있다.
 
 compareAndSwap 는 (Object o, long offset, Object expected, Object x) parameter를 전달받는데, o의 메모리  offset 위치의 값이 expected 와 일치한다면 x 로 변환 시킨다.
 
