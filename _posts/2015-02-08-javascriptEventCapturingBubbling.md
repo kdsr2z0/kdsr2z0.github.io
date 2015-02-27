@@ -71,8 +71,8 @@ shortUrl:
 	</script>
 	</html>
 
-위 코드를 보면 아래 자바 스크립트에서 class 가 testDiv인 Element 에 event listenr를 등록 하고 있다. <br>
-jquery에 의해  내부적으로 $(".testDiv")로 select한  리스트의 각 Node에 event listenr가 등록된다.<br>
+위 코드를 보면 아래 자바 스크립트에서 class 가 testDiv인 Element에 event listener를 등록 하고 있다. <br>
+jquery에 의해  내부적으로 $(".testDiv")로 select한  리스트의 각 Element에 event listener가 등록된다.<br>
 위 코드에 의해 다음과 같은 노드 구조가 생성된다.
 
 ![](/img/capturingbubbling1.JPG)
@@ -122,7 +122,7 @@ Capturing Event
 ---------------- 
 
 Capturing Event 라는 것도 있다. Capturing을 하면서 실행하는 이벤트를 말한다.<br>
-Capturing Event는 jquery 에서는 제공하지 않기 대문에 addEventListener 를 통해서 지정할 수 있다.
+Capturing Event는 jquery 에서는 제공하지 않기 때문에 addEventListener 를 통해서 지정할 수 있다.
 
 * button3을 클릭 하였을 때의 로그
 
