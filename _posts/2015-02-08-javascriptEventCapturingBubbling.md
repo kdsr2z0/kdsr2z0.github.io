@@ -79,19 +79,22 @@ jquery에 의해  내부적으로 $(".testDiv")로 select한  리스트의 각 N
 
 * button1을 클릭 하였을 때의 로그
 	
-	clicked div id : 3
-	clicked div id : 2
-	clicked div id : 1
+	
+		clicked div id : 3
+		clicked div id : 2
+		clicked div id : 1
+		
 	
 * button2를 클릭 하였을 때의 로그
 
- 	clicked div id : 4
-	clicked div id : 2
-	clicked div id : 1	
+
+
+		clicked div id : 4
+		clicked div id : 2
+		clicked div id : 1	
  
  
 
-위 두 로그를 보면 이벤트 캡쳐링과 버블링을 모두 설명할 수 있다.
 
 
 Capturing 
@@ -123,10 +126,12 @@ Capturing Event는 jquery 에서는 제공하지 않기 대문에 addEventListen
 
 * button3을 클릭 하였을 때의 로그
 
- 	clicked div id : 6
-	clicked div id : 7
-	clicked div id : 8	
 
+		clicked div id : 6
+		clicked div id : 7
+		clicked div id : 8	
+
+		
 위 로그를 보게 되면 캡쳐링 한 순서대로 이벤트가 실행 된 것을 볼 수 있다.
 
 
@@ -154,5 +159,5 @@ __return false;__
 참조
 ---------------- 
 
-* http://www.kirupa.com/html5/event_capturing_bubbling_javascript.htm
+* <http://www.kirupa.com/html5/event_capturing_bubbling_javascript.htm>
 
