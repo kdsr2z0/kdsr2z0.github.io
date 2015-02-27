@@ -146,6 +146,14 @@ __e.stopPropagation();__
 * div 2 에 e.stopPropagation(); 를 걸어주게 되면 그 이후에 걸려 있는 이벤트 들이 동작하지 않게 된다.
 * a tag를 이용하여 link로 이동을 할 때, __부모 노드들의 이벤트가 bubbling되어 모두 실행된 후__ 페이지가 이동하게 되어있다. 만약 e.stopPropagation(); 를 걸어주게 되면 버블링 되지 않고 페이지 이동만 할 수 있게 된다.
 
+	
+	clicked div id : 3
+	clicked div id : 2
+	clicked div id : 1	
+	Navigated to http://www.naver.com/
+
+
+
 __return false;__
 
 * e.preventDefault(); e.stopPropagation(); 기능을 모두 수행해 준다.
