@@ -77,25 +77,6 @@ jquery에 의해  내부적으로 $(".testDiv")로 select한  리스트의 각 E
 
 ![](/img/capturingbubbling1.JPG)
 
-* button1을 클릭 하였을 때의 로그
-	
-	
-		clicked div id : 3
-		clicked div id : 2
-		clicked div id : 1
-		
-	
-* button2를 클릭 하였을 때의 로그
-
-
-
-		clicked div id : 4
-		clicked div id : 2
-		clicked div id : 1	
- 
- 
-
-
 
 Capturing 
 ---------------- 
@@ -113,6 +94,22 @@ Bubbling
 Bubbling은 Capturing의 끝 지점에서 부터 되돌아 오는 과정을 말한다.<br>
 
 ![](/img/capturingbubbling3.JPG)
+
+* button1을 클릭 하였을 때의 로그
+	
+	
+		clicked div id : 3
+		clicked div id : 2
+		clicked div id : 1
+		
+	
+* button2를 클릭 하였을 때의 로그
+
+
+
+		clicked div id : 4
+		clicked div id : 2
+		clicked div id : 1	
 
 이때, 각 Element의 Event와 EventListener를 호출하게 된다.<br>
 그래서 위 로그를 보면 가장 자식 노드 부터 호출하고 있다.
