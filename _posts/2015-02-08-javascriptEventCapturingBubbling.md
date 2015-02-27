@@ -147,11 +147,11 @@ __e.stopPropagation();__
 * a tag를 이용하여 link로 이동을 할 때, __부모 노드들의 이벤트가 bubbling되어 모두 실행된 후__ 페이지가 이동하게 되어있다. 만약 e.stopPropagation(); 를 걸어주게 되면 버블링 되지 않고 페이지 이동만 할 수 있게 된다.
 
 	
-	-> e.stopPropagation() 가 없는 a tag 동작
-	clicked div id : 3
-	clicked div id : 2
-	clicked div id : 1	
-	Navigated to http://www.naver.com/
+		-> e.stopPropagation() 가 없는 a tag 동작
+		clicked div id : 3
+		clicked div id : 2
+		clicked div id : 1	
+		Navigated to http://www.naver.com/
 
 
 
