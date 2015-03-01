@@ -322,48 +322,48 @@ doPut method
 
 주석만 따로 정리하면 다음과 같다.
 
-- findPredecessor 메소드를 이용하여 before Node를 찾는다.
-- 찾은 Node의 next Node (n)를 검사한다.
-- next Node가 null이라면 마지막 노드이므로 바로 next 에 link시키게 된다.
-&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 작업되기 때문에 n != b.next 상태가 될 수 있다. 이럴 경우 처음부터 다시 시도하게 된다.
-&nbsp;&nbsp;&nbsp;- 만약 nextNode의 value가 null 이라면 node를 delete 하게 한다.
-&nbsp;&nbsp;&nbsp;- next Node를 검사하는 도중 before Node가 삭제(null or markerNode)되었을 수 있다.
-&nbsp;&nbsp;&nbsp;- before Node가 삭제되었을 때, 처음부터 다시 시도하게 된다.
-&nbsp;&nbsp;&nbsp;- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.
-&nbsp;&nbsp;&nbsp;- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.
-&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍에 의해 next node가 변경(새로운 노드 삽입)되었을 상황에 대비한다.
-&nbsp;&nbsp;&nbsp;- key > next.key 일 경우 다음 노드로 이동한다.
-&nbsp;&nbsp;&nbsp;- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.
-&nbsp;&nbsp;&nbsp;- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.
-&nbsp;&nbsp;&nbsp;- n.casValue() 가 실패 할 시 처음부터 다시 시도한다.
-&nbsp;&nbsp;&nbsp;- 새로운 노드를 생성한다.
-&nbsp;&nbsp;&nbsp;- beforeNode 에 link 시킨다. 실패시, 처음부터 다시 시도한다.
-&nbsp;&nbsp;&nbsp;- Node insert가 완료할 시 다음 과정으로 이동한다.
+- doPut 메소드를 이용하여 before Node를 찾는다.<br>
+- 찾은 Node의 next Node (n)를 검사한다.<br>
+- next Node가 null이라면 마지막 노드이므로 바로 next 에 link시키게 된다.<br>
+&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 작업되기 때문에 n != b.next 상태가 될 수 있다. 이럴 경우 처음부터 다시 시도하게 된다.<br>
+&nbsp;&nbsp;&nbsp;- 만약 nextNode의 value가 null 이라면 node를 delete 하게 한다.<br>
+&nbsp;&nbsp;&nbsp;- next Node를 검사하는 도중 before Node가 삭제(null or markerNode)되었을 수 있다.<br>
+&nbsp;&nbsp;&nbsp;- before Node가 삭제되었을 때, 처음부터 다시 시도하게 된다.<br>
+&nbsp;&nbsp;&nbsp;- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.<br>
+&nbsp;&nbsp;&nbsp;- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.<br>
+&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍에 의해 next node가 변경(새로운 노드 삽입)되었을 상황에 대비한다.<br>
+&nbsp;&nbsp;&nbsp;- key > next.key 일 경우 다음 노드로 이동한다.<br>
+&nbsp;&nbsp;&nbsp;- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.<br>
+&nbsp;&nbsp;&nbsp;- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.<br>
+&nbsp;&nbsp;&nbsp;- n.casValue() 가 실패 할 시 처음부터 다시 시도한다.<br>
+&nbsp;&nbsp;&nbsp;- 새로운 노드를 생성한다.<br>
+&nbsp;&nbsp;&nbsp;- beforeNode 에 link 시킨다. 실패시, 처음부터 다시 시도한다.<br>
+&nbsp;&nbsp;&nbsp;- Node insert가 완료할 시 다음 과정으로 이동한다.<br>
 
--> 랜덤 값을 하나 생성한다.
--> 나누기 2를 하면서, level을 증가 시킨다.
--> head.level > level 이라면, 지정된 level만큼의 계층 Index를 생성한다.
--> 새로 생성될 level이 head.level 보다 크다면 새로운 headIndex를 생성하여야 한다.
-&nbsp;&nbsp;&nbsp;- head.level 보다 +1 로 level을 조정한다.
-&nbsp;&nbsp;&nbsp;- headIndex에 연결 될 index list를 새로 생성한다.
-&nbsp;&nbsp;&nbsp;- HeadIndex list를 생성한다.
-&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 인해 새로운 headIndex가 생성되었을 수 있다.
-&nbsp;&nbsp;&nbsp;- 이 경우 idx 새로운 headIndex가 필요없기 때문에 break; 시키게 된다.
-&nbsp;&nbsp;&nbsp;- 새로운 HeadIndex를 생성한다. 
-&nbsp;&nbsp;&nbsp;- Head Index를 cas 한다. 실패시, headIndex 생성을 다시 시도한다.
+- 랜덤 값을 하나 생성한다.
+- 나누기 2를 하면서, level을 증가 시킨다.
+- head.level > level 이라면, 지정된 level만큼의 계층 Index를 생성한다.<br>
+- 새로 생성될 level이 head.level 보다 크다면 새로운 headIndex를 생성하여야 한다.<br>
+&nbsp;&nbsp;&nbsp;- head.level 보다 +1 로 level을 조정한다.<br>
+&nbsp;&nbsp;&nbsp;- headIndex에 연결 될 index list를 새로 생성한다.<br>
+&nbsp;&nbsp;&nbsp;- HeadIndex list를 생성한다.<br>
+&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 인해 새로운 headIndex가 생성되었을 수 있다.<br>
+&nbsp;&nbsp;&nbsp;- 이 경우 idx 새로운 headIndex가 필요없기 때문에 break; 시키게 된다.<br>
+&nbsp;&nbsp;&nbsp;- 새로운 HeadIndex를 생성한다. <br>
+&nbsp;&nbsp;&nbsp;- Head Index를 cas 한다. 실패시, headIndex 생성을 다시 시도한다.<br>
 
--> 새로 생성한 index list를 SkipList에 붙인다.
--> headIndex(q)에서 부터 시작하며, rightIndex를 검사한다. 새로 생성된 Index List의 top(t) 연결하면 된다.
--> index를 찾아가기 위해 compare를 시도한다.
--> 현재 탐색중인 Node의 key > nextIndex.node 이라면 다음 index로 이동한다.
--> 현재 탐색 index level과 newIndex의 level 이 같다면 link를 시도한 후 insertionLevel을 -1 해준다.
-->-> 병렬 프로그래밍으로 인해 실패할 수 있따. 실패 시 처음부터 다시 시도한다.
-&nbsp;&nbsp;&nbsp;- 현재 사입 노드의 value가 null일 시 삭제를 시도한 후 종료한다.
-&nbsp;&nbsp;&nbsp;- insertionLevel가 0일 시 doPut과정을 완료한다.
-&nbsp;&nbsp;&nbsp;- 아니라면 insertionLevel을 -1 시킨다.
+- 새로 생성한 index list를 SkipList에 붙인다.<br>
+- headIndex(q)에서 부터 시작하며, rightIndex를 검사한다. 새로 생성된 Index List의 top(t) 연결하면 된다.<br>
+- index를 찾아가기 위해 compare를 시도한다.<br>
+- 현재 탐색중인 Node의 key > nextIndex.node 이라면 다음 index로 이동한다.<br>
+- 현재 탐색 index level과 newIndex의 level 이 같다면 link를 시도한 후 insertionLevel을 -1 해준다.<br>
+&nbsp;&nbsp;&nbsp;- index link가 병렬 프로그래밍으로 인해 실패할 수 있다. 실패 시 처음부터 다시 시도한다.<br>
+&nbsp;&nbsp;&nbsp;- 현재 사입 노드의 value가 null일 시 삭제를 시도한 후 종료한다.<br>
+&nbsp;&nbsp;&nbsp;- insertionLevel가 0일 시 doPut과정을 완료한다.<br>
+&nbsp;&nbsp;&nbsp;- 아니라면 insertionLevel을 -1 시킨다.<br>
 
-->현재 탐색중인 j 가 j < level 일때 부터 새로 생성된 index도 down으로 이동한다.
-->현재 탐색 노드를 down으로 이동한 후 반복한다.
+- 현재 탐색중인 j 가 j < level 일때 부터 새로 생성된 index도 down으로 이동한다.
+- 현재 탐색 노드를 down으로 이동한 후 반복한다.
 
 
 
