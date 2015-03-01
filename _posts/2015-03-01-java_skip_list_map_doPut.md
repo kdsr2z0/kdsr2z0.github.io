@@ -40,6 +40,12 @@ doPut에 관하여
 * 중복 key를 지원하지 않기 때문에, 존재하는 key의 경우 값을 replace 한다.
 * onlyIfAbsent : ture 일 때, key가 중복되더라도 값이 replace 되지 않는다.
 
+* Tree의 경우 insert과정에서 리벨런싱이 발생하고, 이 리벨런싱을 하는 도중 접근에 대하여 blocking된다. 
+* 반면 ConcurrentSkipListMap의 doPut의 경우 병렬 프로그래밍을 대비하여 여러가지 장치를 대비하고 있다.
+* ConcurrentSkipListMap의 코드를 살펴본 결과, doPut과정을 다시 시도한다던가, compare를 여러번 수행하는 등의 오버헤드가 발생하더라도 접근에 대한 blocking이 발생하지 않도록 하고 있는것을 알 수 있었다.
+
+
+
 
 doPut mothod의 과정
 ---------------- 
@@ -67,7 +73,6 @@ findPredecessor method
             for (Index<K,V> q = head, r = q.right, d;;) {
 				// HeadIndex에서 부터 시작한다.
 				// index 의 right 인덱스를 확인한다.
-				
 				// right index가 null 이라면 down index로 이동한다.
                 if (r != null) {  
 				
@@ -110,14 +115,14 @@ findPredecessor method
 	
 주석만 따로 정리하면 다음과 같다.
 
--> HeadIndex에서 부터 시작한다.<br>
--> index 의 rightIndex(r)를 확인한다.<br>
--> index의 right 가 null 이라면 down index(d)로 이동한다.<br>
-->-> right index의 Node의 key를 얻어온다.<br>
-&nbsp;&nbsp;-> right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.<br>
-&nbsp;&nbsp;-> 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.<br>
-&nbsp;&nbsp;-> 그 경우 다시 처음부터 시도하게 된다.<br>
-&nbsp;&nbsp;-> unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.<br>
+> HeadIndex에서 부터 시작한다.<br>
+> index 의 rightIndex(r)를 확인한다.<br>
+> index의 right 가 null 이라면 down index(d)로 이동한다.<br>
+>&#09;> right index의 Node의 key를 얻어온다.<br>
+&#09;> right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.<br>
+&#09;> 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.<br>
+&#09;> 그 경우 다시 처음부터 시도하게 된다.<br>
+&#09;> unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.<br>
 
 -> key > rightIndex.node.key 일때, rightIndex 로 이동한다.<br>
 -> down Index로 이동한다.<br>
