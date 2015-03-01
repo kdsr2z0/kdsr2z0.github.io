@@ -118,11 +118,11 @@ findPredecessor method
 > HeadIndex에서 부터 시작한다.<br>
 > index 의 rightIndex(r)를 확인한다.<br>
 > index의 right 가 null 이라면 down index(d)로 이동한다.<br>
->&#09;> right index의 Node의 key를 얻어온다.<br>
-&#09;> right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.<br>
-&#09;> 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.<br>
-&#09;> 그 경우 다시 처음부터 시도하게 된다.<br>
-&#09;> unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.<br>
+>&nbsp;&nbsp;> right index의 Node의 key를 얻어온다.<br>
+ &nbsp;&nbsp;> right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.<br>
+ &nbsp;&nbsp;> 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.<br>
+ &nbsp;&nbsp;> 그 경우 다시 처음부터 시도하게 된다.<br>
+ &nbsp;&nbsp;> unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.<br>
 
 -> key > rightIndex.node.key 일때, rightIndex 로 이동한다.<br>
 -> down Index로 이동한다.<br>
