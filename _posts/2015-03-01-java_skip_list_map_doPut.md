@@ -115,8 +115,8 @@ findPredecessor method
 	
 주석만 따로 정리하면 다음과 같다.
 
-- HeadIndex에서 부터 시작한다.<br>
-- index 의 rightIndex(r)를 확인한다.<br>
+- HeadIndex에서 부터 시작한다.
+- index 의 rightIndex(r)를 확인한다.
 - index의 right 가 null 이라면 down index(d)로 이동한다.<br>
 &nbsp;&nbsp;&nbsp;- right index의 Node의 key를 얻어온다.<br>
 &nbsp;&nbsp;&nbsp;- right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.<br>
@@ -322,8 +322,8 @@ doPut method
 
 주석만 따로 정리하면 다음과 같다.
 
-- doPut 메소드를 이용하여 before Node를 찾는다.<br>
-- 찾은 Node의 next Node (n)를 검사한다.<br>
+- doPut 메소드를 이용하여 before Node를 찾는다.
+- 찾은 Node의 next Node (n)를 검사한다.
 - next Node가 null이라면 마지막 노드이므로 바로 next 에 link시키게 된다.<br>
 &nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 작업되기 때문에 n != b.next 상태가 될 수 있다. 이럴 경우 처음부터 다시 시도하게 된다.<br>
 &nbsp;&nbsp;&nbsp;- 만약 nextNode의 value가 null 이라면 node를 delete 하게 한다.<br>
@@ -342,7 +342,7 @@ doPut method
 
 - 랜덤 값을 하나 생성한다.
 - 나누기 2를 하면서, level을 증가 시킨다.
-- head.level > level 이라면, 지정된 level만큼의 계층 Index를 생성한다.<br>
+- head.level > level 이라면, 지정된 level만큼의 계층 Index를 생성한다.
 - 새로 생성될 level이 head.level 보다 크다면 새로운 headIndex를 생성하여야 한다.<br>
 &nbsp;&nbsp;&nbsp;- head.level 보다 +1 로 level을 조정한다.<br>
 &nbsp;&nbsp;&nbsp;- headIndex에 연결 될 index list를 새로 생성한다.<br>
@@ -353,9 +353,9 @@ doPut method
 &nbsp;&nbsp;&nbsp;- Head Index를 cas 한다. 실패시, headIndex 생성을 다시 시도한다.<br>
 
 - 새로 생성한 index list를 SkipList에 붙인다.<br>
-- headIndex(q)에서 부터 시작하며, rightIndex를 검사한다. 새로 생성된 Index List의 top(t) 연결하면 된다.<br>
+- headIndex(q)에서 부터 시작하며, rightIndex를 검사한다. 새로 생성된 Index List의 top(t) 연결하면 된다.
 - index를 찾아가기 위해 compare를 시도한다.<br>
-- 현재 탐색중인 Node의 key > nextIndex.node 이라면 다음 index로 이동한다.<br>
+- 현재 탐색중인 Node의 key > nextIndex.node 이라면 다음 index로 이동한다.
 - 현재 탐색 index level과 newIndex의 level 이 같다면 link를 시도한 후 insertionLevel을 -1 해준다.<br>
 &nbsp;&nbsp;&nbsp;- index link가 병렬 프로그래밍으로 인해 실패할 수 있다. 실패 시 처음부터 다시 시도한다.<br>
 &nbsp;&nbsp;&nbsp;- 현재 사입 노드의 value가 null일 시 삭제를 시도한 후 종료한다.<br>
@@ -366,6 +366,10 @@ doPut method
 - 현재 탐색 노드를 down으로 이동한 후 반복한다.
 
 
+정리
+---------------- 
+ConcurrentSkipListMap의 doPut 과정은 최대한 blocking이 발생하지 않도록 하고 있는것을 볼 수 있다.
+* cas(CompareAndSwap) : Ap
 
 
 
