@@ -398,3 +398,12 @@ doPut method
 - 현재 탐색 노드를 down으로 이동한 후 반복한다.
 
 
+정리
+---------------- 
+
+- 병렬 프로그래밍에서 자료구조의 동기화를 위해 critical section 을 잘 관리해야 한다는 것은 알고있었다.
+- 그러나, doPut 과정 전체를 critical section 으로 하지 않는 한, conflict가 발생할 가능성이 존재하고, markerNode등을 사용하여 임의로 실패하도록 하여 재시도 하게 할 수 있다.
+- 중요한 것은 non-blocking 상태에서 실패하도록 하여 blocking이 최소화 하도록 하여야 한다는 것이다.
+
+
+
