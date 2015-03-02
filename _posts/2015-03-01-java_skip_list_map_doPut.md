@@ -104,44 +104,44 @@ findPredecessor method
 * 해설을 다음 코드의 주석으로 달아 두었다.
 
 
-    private Node<K,V> findPredecessor(Object key, Comparator<? super K> cmp) {
-        if (key == null)
-            throw new NullPointerException(); // don't postpone errors
-        for (;;) {
-            for (Index<K,V> q = head, r = q.right, d;;) {
-				// HeadIndex에서 부터 시작한다.
-				// index 의 right 인덱스를 확인한다.
-				// right index가 null 이라면 down index로 이동한다.
-                if (r != null) {  
-                    Node<K,V> n = r.node;
-                    K k = n.key; 
-					// right index의 Node의 key를 얻어온다.
-                    if (n.value == null) { 
-					// right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.
-						// 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.
-						// 그 경우 다시 처음부터 시도하게 된다.
-                        if (!q.unlink(r))
-                            break;           // restart 
-                        r = q.right;         // reread r
-						// unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.
-                        continue;
-                    }
-					// key > rightIndex.node.key 일때, rightIndex 로 이동한다.
-                    if (cpr(cmp, key, k) > 0) {
-                        q = r;
-                        r = r.right;
-                        continue;
-                    }
-                }				
-				// down Index로 이동하는 부분.
-				// 가장 아랫쪽 Index까지 도달했을 때, Index의 node를 반환한다.
-                if ((d = q.down) == null)
-                    return q.node;
-                q = d;
-                r = d.right;
-            }
-        }
-    }
+		private Node<K,V> findPredecessor(Object key, Comparator<? super K> cmp) {
+			if (key == null)
+				throw new NullPointerException(); // don't postpone errors
+			for (;;) {
+				for (Index<K,V> q = head, r = q.right, d;;) {
+					// HeadIndex에서 부터 시작한다.
+					// index 의 right 인덱스를 확인한다.
+					// right index가 null 이라면 down index로 이동한다.
+					if (r != null) {  
+						Node<K,V> n = r.node;
+						K k = n.key; 
+						// right index의 Node의 key를 얻어온다.
+						if (n.value == null) { 
+						// right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.
+							// 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.
+							// 그 경우 다시 처음부터 시도하게 된다.
+							if (!q.unlink(r))
+								break;           // restart 
+							r = q.right;         // reread r
+							// unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.
+							continue;
+						}
+						// key > rightIndex.node.key 일때, rightIndex 로 이동한다.
+						if (cpr(cmp, key, k) > 0) {
+							q = r;
+							r = r.right;
+							continue;
+						}
+					}				
+					// down Index로 이동하는 부분.
+					// 가장 아랫쪽 Index까지 도달했을 때, Index의 node를 반환한다.
+					if ((d = q.down) == null)
+						return q.node;
+					q = d;
+					r = d.right;
+				}
+			}
+		}
 
 	
 주석만 따로 정리하면 다음과 같다.
