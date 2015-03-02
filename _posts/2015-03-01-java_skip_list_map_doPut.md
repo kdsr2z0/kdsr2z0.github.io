@@ -42,7 +42,7 @@ doPut에 관하여
 
 * Tree의 경우 insert과정에서 리벨런싱이 발생하고, 이 리벨런싱을 하는 도중 접근에 대하여 blocking된다. 
 * 반면 ConcurrentSkipListMap의 doPut의 경우 병렬 프로그래밍을 대비하여 여러가지 장치를 대비하고 있다.
-* ConcurrentSkipListMap의 코드를 살펴본 결과, doPut과정을 다시 시도한다던가, compare를 여러번 수행하는 등의 오버헤드가 발생하더라도 접근에 대한 blocking이 발생하지 않도록 하고 있는것을 알 수 있었다.
+* ConcurrentSkipListMap의 코드를 살펴본 결과, doPut과정을 다시 시도한다던가, compare를 여러번 수행하는 등의 오버헤드가 발생하더라도 접근에 대한 blocking의 발생을 최소화 하고 있는것을 알 수 있었다.
 * 또, insertion과 delete 동시 발생 시 conflict 발생 도 효율적으로 방지하고 있었다.
 
 * 리벨런싱이 없는 자료구조는 편향될 가능성이 있다. 편향되게 되면 탐색 시 최악의 상황에 O(n)의 수행시간이 발생할 수 있다.
@@ -69,7 +69,7 @@ ConcurrentSkipListMap의 doPut 과정은 최대한 blocking이 발생하지 않�
 		등, 직전에 찾은 node위치의 beforeNode와 nextNode를 한번더 검사하는 등의 불필요해 보일수 있는 동작이 보인다.
 		이런 과정은 사실, casNext 와 같은 cas 과정에서 false 되어 검사를 하지 않아도 되는 부분일 수 있다.
 		모든 cas 와 관련된 메소드를 호출하기 전에 이처럼 검사 과을 거친다.
-		그러나 __cas까지 도달하게 되면 접근이 blocking되기 때문에__ 오버헤드가 발생하더라도 여러번 검사를 하여 blocking 되는것을 최대한 막고 있다.
+		그러나 cas까지 도달하게 되면 접근이 blocking되기 때문에 오버헤드가 발생하더라도 여러번 검사를 하여 blocking 되는것을 최대한 막고 있다.
 		cas 과정까지 도달하여 blocking 되는 것 보다 하나의 쓰레드만 처음부터 다시 시도하도록 하는것이 더 효율적인 것으로 판단한 것 같다.
 	
 
