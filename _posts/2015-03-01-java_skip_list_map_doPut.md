@@ -46,7 +46,7 @@ doPut에 관하여
 * 또, insertion과 delete 동시 발생 시 conflict 발생 도 효율적으로 방지하고 있었다.
 
 * 리벨런싱이 없는 자료구조는 편향될 가능성이 있다. 편향되게 되면 탐색 시 최악의 상황에 O(n)의 수행시간이 발생할 수 있다.
-* Node의 index Level을 확률적으로 생성함으로써, 리벨런싱을 하지 않아도 index level이 편향되지 않도록 하고있다.
+* __Node의 index Level을 확률적으로 생성__함으로써, 리벨런싱을 하지 않아도 index level이 편향되지 않도록 하고있다.
 
 
 특징
