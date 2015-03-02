@@ -49,6 +49,40 @@ doPut에 관하여
 * Node의 index Level을 확률적으로 생성함으로써, 리벨런싱을 하지 않아도 index level이 편향되지 않도록 하고있다.
 
 
+특징
+---------------- 
+ConcurrentSkipListMap의 doPut 과정은 최대한 blocking이 발생하지 않도록 하고 있는것을 볼 수 있다.
+
+* cas(CompareAndSwap)를 사용한 swapping : Atomically 하게 동작하도록 지원한다.
+* conflict 를 방지하기 위해 insertion 과정에서 delete 된 node를 여러번 반복해서 검사하고 있다. 
+* cas의 실패를 미리 예상하여, blocking 되지 않고 다시 처음부터 시도 되도록 한다.
+
+
+	위 코드의 node 삽입 과정에서 
+		- if (n != b.next) 
+			 break;
+		- if ((c = cpr(cmp, key, n.key)) > 0) {
+				b = n;
+				n = f;
+				continue;
+			}
+	등, 직전에 찾은 node위치의 beforeNode와 nextNode를 한번더 검사하는 등의 불필요해 보일수 있는 동작이 보인다.
+	이런 과정은 사실, casNext 와 같은 cas 과정에서 false 되어 검사를 하지 않아도 되는 부분일 수 있다.
+	모든 cas 와 관련된 메소드를 호출하기 전에 이처럼 검사 과을 거친다.
+	그러나 __cas까지 도달하게 되면 접근이 blocking되기 때문에__ 오버헤드가 발생하더라도 여러번 검사를 하여 blocking 되는것을 최대한 막고 있다.
+	cas 과정까지 도달하여 blocking 되는 것 보다 하나의 쓰레드만 처음부터 다시 시도하도록 하는것이 더 효율적인 것으로 판단한 것 같다.
+	
+
+* 마커노드 
+
+
+	- 병렬 프로그램에서 동시에 발생하는 insertion과 delete 에 의해 beforeNode - node - nextNode 의 구조가 conflict 발생할 수 있다.
+	- 따라서, 삭제되는 노드를 marking 하는 방식으로 insertion 과정에서 실패하도록 만듬으로써 conflict를 방지할 수 있다.
+	- MarkNode를 사용하는 이유는 mark bit 를 사용하는것 보다 메모리를 덜 사용할 수 있기 때문이다.
+
+
+
+
 
 doPut mothod의 과정
 ---------------- 
@@ -78,11 +112,9 @@ findPredecessor method
 				// index 의 right 인덱스를 확인한다.
 				// right index가 null 이라면 down index로 이동한다.
                 if (r != null) {  
-				
                     Node<K,V> n = r.node;
                     K k = n.key; 
 					// right index의 Node의 key를 얻어온다.
-					
                     if (n.value == null) { 
 					// right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.
 					
@@ -121,12 +153,12 @@ findPredecessor method
 - HeadIndex에서 부터 시작한다.
 - index 의 rightIndex(r)를 확인한다.
 - index의 right 가 null 이라면 down index(d)로 이동한다.<br>
-&nbsp;&nbsp;&nbsp;- right index의 Node의 key를 얻어온다.<br>
-&nbsp;&nbsp;&nbsp;- right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.<br>
-&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.<br>
-&nbsp;&nbsp;&nbsp;- 그 경우 다시 처음부터 시도하게 된다.<br>
-&nbsp;&nbsp;&nbsp;- unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.<br>
-
+	- right index의 Node의 key를 얻어온다.<br>
+	- right index의 Node의 value 가 null 이면 index를 삭제(unlink)한다.<br>
+	- 병렬 프로그래밍으로 시도 되기 때문에 cas 과정이 실패할 수 있다.<br>
+	- 그 경우 다시 처음부터 시도하게 된다.<br>
+	- unlink가 정상적으로 동작하게 되면 다음 right index를 검사한다.<br>
+	
 - key > rightIndex.node.key 일때, rightIndex 로 이동한다.<br>
 - down Index로 이동한다.<br>
 - 가장 아랫쪽 Index까지 도달했을 때, Index의 node를 반환한다.<br>
@@ -328,73 +360,45 @@ doPut method
 - doPut 메소드를 이용하여 before Node를 찾는다.
 - 찾은 Node의 next Node (n)를 검사한다.
 - next Node가 null이라면 마지막 노드이므로 바로 next 에 link시키게 된다.<br>
-&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 작업되기 때문에 n != b.next 상태가 될 수 있다. 이럴 경우 처음부터 다시 시도하게 된다.<br>
-&nbsp;&nbsp;&nbsp;- 만약 nextNode의 value가 null 이라면 node를 delete 하게 한다.<br>
-&nbsp;&nbsp;&nbsp;- next Node를 검사하는 도중 before Node가 삭제(null or markerNode)되었을 수 있다.<br>
-&nbsp;&nbsp;&nbsp;- before Node가 삭제되었을 때, 처음부터 다시 시도하게 된다.<br>
-&nbsp;&nbsp;&nbsp;- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.<br>
-&nbsp;&nbsp;&nbsp;- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.<br>
-&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍에 의해 next node가 변경(새로운 노드 삽입)되었을 상황에 대비한다.<br>
-&nbsp;&nbsp;&nbsp;- key > next.key 일 경우 다음 노드로 이동한다.<br>
-&nbsp;&nbsp;&nbsp;- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.<br>
-&nbsp;&nbsp;&nbsp;- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.<br>
-&nbsp;&nbsp;&nbsp;- n.casValue() 가 실패 할 시 처음부터 다시 시도한다.<br>
-&nbsp;&nbsp;&nbsp;- 새로운 노드를 생성한다.<br>
-&nbsp;&nbsp;&nbsp;- beforeNode 에 link 시킨다. 실패시, 처음부터 다시 시도한다.<br>
-&nbsp;&nbsp;&nbsp;- Node insert가 완료할 시 다음 과정으로 이동한다.<br>
+	- 병렬 프로그래밍으로 작업되기 때문에 n != b.next 상태가 될 수 있다. 이럴 경우 처음부터 다시 시도하게 된다.<br>
+	- 만약 nextNode의 value가 null 이라면 node를 delete 하게 한다.<br>
+	- next Node를 검사하는 도중 before Node가 삭제(null or markerNode)되었을 수 있다.<br>
+	- before Node가 삭제되었을 때, 처음부터 다시 시도하게 된다.<br>
+	- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.<br>
+	- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.<br>
+	- 병렬 프로그래밍에 의해 next node가 변경(새로운 노드 삽입)되었을 상황에 대비한다.<br>
+	- key > next.key 일 경우 다음 노드로 이동한다.<br>
+	- key 와 next.key가 같을 경우, onlyIfAbsent == false일 때 값을 대체한다.<br>
+	- onlyIfAbsent == true 일 시, 중복된 키가 있다면 insert 하지 않는다.<br>
+	- n.casValue() 가 실패 할 시 처음부터 다시 시도한다.<br>
+	- 새로운 노드를 생성한다.<br>
+	- beforeNode 에 link 시킨다. 실패시, 처음부터 다시 시도한다.<br>
+	- Node insert가 완료할 시 다음 과정으로 이동한다.<br>
 
 - 랜덤 값을 하나 생성한다.
 - 나누기 2를 하면서, level을 증가 시킨다.
 - head.level > level 이라면, 지정된 level만큼의 계층 Index를 생성한다.
 - 새로 생성될 level이 head.level 보다 크다면 새로운 headIndex를 생성하여야 한다.<br>
-&nbsp;&nbsp;&nbsp;- head.level 보다 +1 로 level을 조정한다.<br>
-&nbsp;&nbsp;&nbsp;- headIndex에 연결 될 index list를 새로 생성한다.<br>
-&nbsp;&nbsp;&nbsp;- HeadIndex list를 생성한다.<br>
-&nbsp;&nbsp;&nbsp;- 병렬 프로그래밍으로 인해 새로운 headIndex가 생성되었을 수 있다.<br>
-&nbsp;&nbsp;&nbsp;- 이 경우 idx 새로운 headIndex가 필요없기 때문에 break; 시키게 된다.<br>
-&nbsp;&nbsp;&nbsp;- 새로운 HeadIndex를 생성한다. <br>
-&nbsp;&nbsp;&nbsp;- Head Index를 cas 한다. 실패시, headIndex 생성을 다시 시도한다.<br>
+
+	- head.level 보다 +1 로 level을 조정한다.<br>
+	- headIndex에 연결 될 index list를 새로 생성한다.<br>
+	- HeadIndex list를 생성한다.<br>
+	- 병렬 프로그래밍으로 인해 새로운 headIndex가 생성되었을 수 있다.<br>
+	- 이 경우 idx 새로운 headIndex가 필요없기 때문에 break; 시키게 된다.<br>
+	- 새로운 HeadIndex를 생성한다. <br>
+	- Head Index를 cas 한다. 실패시, headIndex 생성을 다시 시도한다.<br>
 
 - 새로 생성한 index list를 SkipList에 붙인다.<br>
 - headIndex(q)에서 부터 시작하며, rightIndex를 검사한다. 새로 생성된 Index List의 top(t) 연결하면 된다.
 - index를 찾아가기 위해 compare를 시도한다.<br>
 - 현재 탐색중인 Node의 key > nextIndex.node 이라면 다음 index로 이동한다.
 - 현재 탐색 index level과 newIndex의 level 이 같다면 link를 시도한 후 insertionLevel을 -1 해준다.<br>
-&nbsp;&nbsp;&nbsp;- index link가 병렬 프로그래밍으로 인해 실패할 수 있다. 실패 시 처음부터 다시 시도한다.<br>
-&nbsp;&nbsp;&nbsp;- 현재 사입 노드의 value가 null일 시 삭제를 시도한 후 종료한다.<br>
-&nbsp;&nbsp;&nbsp;- insertionLevel가 0일 시 doPut과정을 완료한다.<br>
-&nbsp;&nbsp;&nbsp;- 아니라면 insertionLevel을 -1 시킨다.<br>
+	- index link가 병렬 프로그래밍으로 인해 실패할 수 있다. 실패 시 처음부터 다시 시도한다.<br>
+	- 현재 사입 노드의 value가 null일 시 삭제를 시도한 후 종료한다.<br>
+	- insertionLevel가 0일 시 doPut과정을 완료한다.<br>
+	- 아니라면 insertionLevel을 -1 시킨다.<br>
 
 - 현재 탐색중인 j 가 j < level 일때 부터 새로 생성된 index도 down으로 이동한다.
 - 현재 탐색 노드를 down으로 이동한 후 반복한다.
 
-
-정리
----------------- 
-ConcurrentSkipListMap의 doPut 과정은 최대한 blocking이 발생하지 않도록 하고 있는것을 볼 수 있다.
-
-* cas(CompareAndSwap)를 사용한 swapping : Atomically 하게 동작하도록 지원한다.
-* conflict 를 방지하기 위해 insertion 과정에서 delete 된 node를 여러번 반복해서 검사하고 있다. 
-* cas의 실패를 미리 예상하여, blocking 되지 않고 다시 처음부터 시도 되도록 한다.
-
-
-	위 코드의 node 삽입 과정에서 
-		- if (n != b.next) 
-			 break;
-		- if ((c = cpr(cmp, key, n.key)) > 0) {
-				b = n;
-				n = f;
-				continue;
-			}
-	등, 직전에 찾은 node위치의 beforeNode와 nextNode를 한번더 검사하는 등의 불필요해 보일수 있는 동작이 보인다.
-	이런 과정은 사실, casNext 와 같은 cas 과정에서 false 되어 검사를 하지 않아도 되는 부분일 수 있다.
-	그러나 __cas까지 도달하게 되면 접근이 blocking되기 때문에__ 오버헤드가 발생하더라도 여러번 검사를 하여 blocking 되는것을 최대한 막고 있다.
-	
-
-* 마커노드 
-
-
-	- 병렬 프로그램에서 동시에 발생하는 insertion과 delete 에 의해 beforeNode - node - nextNode 의 구조가 conflict 발생할 수 있다.
-	- 따라서, 삭제되는 노드를 marking 하는 방식으로 insertion 과정에서 실패하도록 만듬으로써 conflict를 방지할 수 있다.
-	- MarkNode를 사용하는 이유는 mark bit 를 사용하는것 보다 메모리를 덜 사용할 수 있기 때문이다.
 
