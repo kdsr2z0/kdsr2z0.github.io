@@ -20,11 +20,23 @@ URL은 그대로 두고, 페이지의 내용만 바꿔주는 forward 와는 여�
 
 스프링에서 리다이렉트는 다음과 같이 사용할 수 있다.
 
-{code}
 
-{code}
+		@RequestMapping(value = "origin")
+		public String origin(HttpServletRequest request) {
+			
+			return "redirect:redirectPage";
+		}
+		
+		@RequestMapping(value = "redirectPage")
+		public String redirectPage(HttpServletRequest request) {
+			
+			return "showView";
+		}
 
-그런데 다른 페이지를 호출할 때, parameter를 전달해야할 상황이 발생할 수 있다.
+		
+origin URL 을 호출하면 redirectPage URL 로 redirect 되어 showView 라는 view page를 보여주게 된다.
+	
+그런데 redirect를 할 때, parameter를 전달해야할 상황이 발생할 수 있다.
 
 어떻게 해야할까?
 
@@ -40,18 +52,41 @@ get과 post 의 특성은 따로 설명하지 않도록 하겠다.
 
 즉, redirect도 a 태그와 같이 파라미터를 전달하기 위해서는 url 에 get 방식의 형태로 parameter를 전달할 수 있다.
 
+<br><br>
+
 Spring 프레임워크에서는 RedirectAttributes 라는 객체를 지원해 주고있다.
 
-RedirectAttributes 객체는 다음과 같이 사용하여 URL에 String으로 attribute를 붗여줘야하는 수고를 덜어준다.
+RedirectAttributes 객체는 다음과 같이 사용하여 URL에 String으로 attribute를 붙여줘야하는 수고를 덜어준다.
 
-{code}
-{code}
+
+		@RequestMapping(value = "origin")
+		public String origin(HttpServletRequest request, RedirectAttributes attributes) {
+			attributes.addAttribute("attr", "attributes1!!!");
+			return "redirect:redirectPage";
+		}
+		
+		@RequestMapping(value = "redirectPage")
+		public String redirectPage(HttpServletRequest request) {
+			System.out.println(request.getParameter("attr"));
+			return "showView";
+		}
+
+		
+특수 기호나 한글의 encoding 도 자동으로 해 주기 때문에 매우 사용하면 매우 편리함을 느낄 수 있을 것이다.
 
 그러나 get 방식은 url에 parameter들이 노출되기 때문에 보안상 좋지 않다.
 
 그렇다면 Post방식으로 Parameter를 전달할 수 있는 방법이 있을까?
 
 RedirectAttributes 에는 FlashMap이라는 모델을 지원한다.
+
+
+		@RequestMapping(value = "origin")
+		public String origin(HttpServletRequest request, RedirectAttributes attributes) {
+			attributes.addFlashAttribute("attr", "attributes1!!!");
+			return "redirect:redirectPage";
+		}
+
 
 FlashMap은 Redirect전 session과 같은 장소에 저장한뒤 redirect 후 즉시 삭제한다. 마치 Post 방식 처럼 URL에 Parameter를 노출하지 않고 전달하게 되는 것이다.
 
