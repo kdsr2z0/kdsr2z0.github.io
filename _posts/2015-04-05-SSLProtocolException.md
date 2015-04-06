@@ -30,7 +30,7 @@ wikipedia 에 따르면 SNI는 TLS (SSL과 유사한 Protocol) 의 확장된 프
 
 좀 더 내용을 읽어 보니, name-based virtual hosting 이라는 기능을 안전하게 사용하기 위한 확장된 프로토콜이라고 하는것 같았다.
 
-name-based virtual hosting는 하다의 IP address에 여러개의 DNS Hostname을 붙여서 동작하게 하도록 하는 기능이다.
+name-based virtual hosting는 하나의 IP address에 여러개의 DNS Hostname을 붙여서 동작하게 하도록 하는 기능이다.
 
 이 기능의 이점은 하나의 인증 정보를 여러 도메인에 공유할 수 있다는 점이다.
 
