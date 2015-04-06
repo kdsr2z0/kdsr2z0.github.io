@@ -1,4 +1,4 @@
-ConcurrentSkipListMap 에 사용되는 Class들은 대부분 내부 클래스로 선언되어 있다.
+﻿ConcurrentSkipListMap 에 사용되는 Class들은 대부분 내부 클래스로 선언되어 있다.
 내부 클래스에 대한 접근은 내부 변수와 동일하다.
 내부 클래스의 특성은 다음과 같다.
 
@@ -9,3 +9,8 @@ ConcurrentSkipListMap 에 사용되는 Class들은 대부분 내부 클래스로
 또, 내부 클래스를 사용하면, 내부 클래스의 이름이 다른 클래스의 내부 클래스의 이름과 동일해도 상관없다는 장점도 존재하는 것 같다.
 
 <br><br><br>
+
+
+
+
+SSLProtocolException: handshake alert: unrecognized_name
