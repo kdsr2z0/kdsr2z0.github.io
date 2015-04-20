@@ -129,6 +129,15 @@ Directory 대신 Location 을 사용하면 된다.
 			</LimitExcept>
 		</Location>
 
+
+최근 https 프로토콜을 많이 사용하고 있는 추세이다.
+
+https 에서 method를 제한하기 위해서는 httpd.conf 파일에서만 설정을 해서는 안될 수 있다.
+
+보통 httpd-ssl.conf 파일 과 같은 파일 명으로 https 프로토콜을 위한 설정 파일이 별도로 존재한다.
+
+같은 방법으로 https 설정 파일에 method 제한을 걸어줘야 method가 제한되게 될 것이다.
+		
 		
 참조
 ---------------- 
