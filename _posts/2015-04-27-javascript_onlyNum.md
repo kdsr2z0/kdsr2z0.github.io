@@ -66,7 +66,7 @@ IE11 한글 입력 이슈
 ---------------- 
 keydown 이벤트에 e.preventDefault 로 숫자만 입력되도록 막는경우 IE11 에서 호환성 보기를 끈 상태에서 한글이 입력되는 문제가 확인되었다.
 
-정확한 원인은 아직 찾지 못하였는데, 아마 [CompositionEvent|https://developer.mozilla.org/ko/docs/Web/API/CompositionEvent] 가 keydown 이벤트 이후에 동작하기 때문이라고 예상하였다.
+정확한 원인은 아직 찾지 못하였는데, 아마 CompositionEvent 가 keydown 이벤트 이후에 동작하기 때문이라고 예상하였다.
 
 CompositionEvent 를 막아서 이것때문인지 원인을 파악해보려 여러가지 실험을 하였지만, 계속 한글이 입력이 되었다.
 
