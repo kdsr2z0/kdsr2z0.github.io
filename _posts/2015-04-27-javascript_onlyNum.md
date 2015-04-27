@@ -88,3 +88,4 @@ ime-mode의 속성은 다음과 같다.
 참조
 ---------------- 
 <https://developer.mozilla.org/ko/docs/Web/API/CompositionEvent>
+<https://developer.mozilla.org/ko/docs/Web/CSS/ime-mode>
