@@ -97,86 +97,86 @@ Ajax의 옵션들
 참조로 둔 ajax api 페이지 를 보는게 더 좋을지도 모르지만, 영어로 된 페이지 이기 때문에 한글로 간단하게 정리하였다.(공부할 겸...)
 
 * __url__
-** 연결하고자하는 주소를 적으면 된다. 어렴풋이 기억나서 확실하지는 않지만 파일경로를 입력해서 비동기로 파일을 읽을수도 있다.
+	* 연결하고자하는 주소를 적으면 된다. 어렴풋이 기억나서 확실하지는 않지만 파일경로를 입력해서 비동기로 파일을 읽을수도 있다.
 
 * __async__
-** default:true, 동기 통신을 하고자하면 false를 주면된다.
+	* default:true, 동기 통신을 하고자하면 false를 주면된다.
 
 * __beforeSend__
-** request 전에 호출되는 이벤트, return false를 주게되면 ajax 이벤트가 취소된다.
+	* request 전에 호출되는 이벤트, return false를 주게되면 ajax 이벤트가 취소된다.
 
 * __cache__
-** default : false 통신 결과를 cache하지 않는다.
+	* default : false 통신 결과를 cache하지 않는다.
 
 * __complete__
-** success, error 가 발생한 이후 발생되는 Event
+	* success, error 가 발생한 이후 발생되는 Event
 
 * __contentType__
-** 서버로 데이터를 보낼 때 사용.
+	* 서버로 데이터를 보낼 때 사용.
 
 * __context__
-** 특정 element를 context로 설정하여, callback 함수의 주체로 만들 수 있다.
+	* 특정 element를 context로 설정하여, callback 함수의 주체로 만들 수 있다.
 
 * __crossDomain__
-** default : false, ture 로 설정하면 domain이 달라도 요청이 가능하다.
+	* default : false, ture 로 설정하면 domain이 달라도 요청이 가능하다.
 
 * __data__
-** key, value pairs를 통해 서버로 parameter를 전달할 수 있다.
+	* key, value pairs를 통해 서버로 parameter를 전달할 수 있다.
 
 * __dataFilter__
-** 서버로 부터 전달받은 데이터를 필터링 할 수 있다.
+	* 서버로 부터 전달받은 데이터를 필터링 할 수 있다.
 
 * __dataType__ 
-** 서버에서 반환되는 데이터의 형식을 지정한다.
-** xml, html, script, json, jsonp, text 가 있다.
+	* 서버에서 반환되는 데이터의 형식을 지정한다.
+	* xml, html, script, json, jsonp, text 가 있다.
 
 * __error__
-** 통신 중 실패했을 경우 호출되는 Event
+	* 통신 중 실패했을 경우 호출되는 Event
 
 * __global__
-** global Event를 동작시킬 것인지 설정한다. default 값은 true, 설정시 등록해놓은 Ajax global event가 bind 되어 발생한다.
+	* global Event를 동작시킬 것인지 설정한다. default 값은 true, 설정시 등록해놓은 Ajax global event가 bind 되어 발생한다.
 
 * __headers__
-** key/value pairs 를 등록하여 헤더에 값을 추가한다.
+	* key/value pairs 를 등록하여 헤더에 값을 추가한다.
 
 * __ifModified__
-** Last-Modified header의 값을 보고 변경된 경우에만 true를 반환한다.
+	* Last-Modified header의 값을 보고 변경된 경우에만 true를 반환한다.
 
 * __jsonp__
-** callback 함수를 json 형태의 parameter로 전달한다. crossDomain 문제를 해결할 수 있다고 하는데.. 한번 연구해봐야할 것 같다.
+	* callback 함수를 json 형태의 parameter로 전달한다. crossDomain 문제를 해결할 수 있다고 하는데.. 한번 연구해봐야할 것 같다.
 
 * __method__
-** http 전송 방식을 설정한다.
+	* http 전송 방식을 설정한다.
 
 * __mimeType__
-** mimeType 을 설정한다.
+	* mimeType 을 설정한다.
 
 * __password__
-** password 가 필요한 http 통신의 비밀번호를 설정한다.
+	* password 가 필요한 http 통신의 비밀번호를 설정한다.
 
 * __processData__
-** 서버에서 받은 데이터를 자동으로 쿼리 문자열로 변환할지 여부를 설정할 수 있다.
+	* 서버에서 받은 데이터를 자동으로 쿼리 문자열로 변환할지 여부를 설정할 수 있다.
 
 * __scriptCharset__
-** 서버와 script의 character set 이 다르다면 설정해야한다.
+	* 서버와 script의 character set 이 다르다면 설정해야한다.
 
 * __success__
-** 통신이 성공하면 호출되는 함수를
+	* 통신이 성공하면 호출되는 함수를
 
 * __statusCode__
-** 특정 state Code 에서 bind 될 event를 설정한다.
+	* 특정 state Code 에서 bind 될 event를 설정한다.
 
 * __timeout__
-** 제한시간을 설정한다.
+	* 제한시간을 설정한다.
 
 * __type__
-** method 옵션의 또다른 이름.
+	* method 옵션의 또다른 이름.
 
 * __username__
-** 인증이 필요한 http 통신에서 사용자를 설정한다.
+	* 인증이 필요한 http 통신에서 사용자를 설정한다.
 
 * __xhr__
-** XMLHttpRequest 나 ActiveXObject 가 만들어질 때 실행되는 callback 함수이다.
+	* XMLHttpRequest 나 ActiveXObject 가 만들어질 때 실행되는 callback 함수이다.
 
 
 
