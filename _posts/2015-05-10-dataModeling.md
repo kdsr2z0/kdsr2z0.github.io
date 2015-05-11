@@ -71,7 +71,7 @@ shortUrl:
 ---------------- 
 * 데이터베이스 3단계 구조
 
-![](/img/dataDependancy.JPG)
+![](/img/dataDependancy.jpg)
 
 데이터독립성 요소
 ---------------- 
