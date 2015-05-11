@@ -71,7 +71,7 @@ shortUrl:
 ---------------- 
 * 데이터베이스 3단계 구조
 
-![](/img/dataDependency.JPG)
+![](/img/dataDependency.jpg)
 
 데이터독립성 요소
 ---------------- 
@@ -99,7 +99,7 @@ shortUrl:
 단수/ 복수 용어 구분 정의
 ---------------- 
 
-![](/img/dataDependancy.JPG)
+![](/img/termsName.jpg)
 
 * 복수 : Entity Type, Entity Set -> 단수 : Entity
 * 복수 : Entity -> 단수 : Instance, Occurrence
