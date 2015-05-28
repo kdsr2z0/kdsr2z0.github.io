@@ -112,6 +112,10 @@ IOS safari 문제 해결
 		<h1>Footer Text</h1>
 	  </div>
 	</div> 
+	$(document).on("pageshow","#pagetwo",function(){
+	});
+	$(document).on("pageshow","#pageone",function(){
+	});
 	
 
 주의사항 - 위 코드들은 jquery에 의해 수행된다.
