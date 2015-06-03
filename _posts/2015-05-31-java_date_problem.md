@@ -86,7 +86,7 @@ __서울 1961년 8월 9일 23시 59분의 1분 후는 0시 30분__
 
 __협정세계시 2012년 6월 30일 23시 59분 59초의 2초 후는 7월 1일 0시0분1초 : 윤초가 적용되지 않았다.__
 
-Reddit, Foursquare, Yelp, LinkedIn 등 많은 기업이 장애를 겪었다. Linux + Java 환경의 시스템이 많았고, Cassandra, Hadoop, Elasticsearch 등 데이터 저장, 검색 플랫폼에서  CPU를 100% 사용하는 문제가 발생했다고 한다. <[http://www.zdnet.co.kr/news/news_view.asp?artice_id=20120702094444]>
+Reddit, Foursquare, Yelp, LinkedIn 등 많은 기업이 장애를 겪었다. Linux + Java 환경의 시스템이 많았고, Cassandra, Hadoop, Elasticsearch 등 데이터 저장, 검색 플랫폼에서  CPU를 100% 사용하는 문제가 발생했다고 한다. <http://www.zdnet.co.kr/news/news_view.asp?artice_id=20120702094444>
 
 시간대 관리
 ---------------- 
@@ -195,13 +195,13 @@ __8) 불필요한 checked Exception__
 날짜 관련 오픈 소스
 ---------------- 
 
-Joda-Time: <[http://www.joda.org/joda-time]>
+Joda-Time: <http://www.joda.org/joda-time>
 
-Time and Money Code Library: <[http://timeandmoney.sourceforge.net]>
+Time and Money Code Library: <http://timeandmoney.sourceforge.net>
 
-CalendarDate: <[http://calendardate.sourceforge.net]>
+CalendarDate: <http://calendardate.sourceforge.net>
 
-date4j: <[http://www.date4j.net]>
+date4j: <http://www.date4j.net>
 
 
 
