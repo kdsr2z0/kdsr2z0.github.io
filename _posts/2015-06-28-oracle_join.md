@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "오라클 인덱스"
+title:  "조인 수행 원리"
 date:   2015-06-28 15:28:00
 categories: java
 tags: shit
