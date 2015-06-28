@@ -20,7 +20,7 @@ shortUrl:
 h4. 조인의 종류
 
 
-NL Join
+NL(Nested Loops) Join
 ---------------- 
 
 * 단순 반복 방식
